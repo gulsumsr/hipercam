@@ -329,6 +329,17 @@ class Tseries:
     def __len__(self):
         return len(self.t)
 
+    def write(self, fname):
+        with open(fname, 'w') as f:
+          f.write('#t y ye mask\n')
+          for i in range(len(self.t)):
+            f.write('{} {} {} {}\n')
+            
+    @classmethod
+    def read(cls, fname):
+        t, y, ye, mask = np.loadtxt(fname).T
+        return cls(t, y, ye, mask)
+
     def set_mask(self, mvalue, mask):
         """
         This updates the internal mask by bitwise_or -ing it with the input mask value
